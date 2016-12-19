@@ -204,20 +204,23 @@ var lazyLoadTree=(function () {
     };
     lazyLoader.prototype.init=function(hd,vd){
         var _self=this;
+        //清空数组
+    	_self.settings.imgArrOffsetHeight=[];
+    	_self.settings.columnOffsetHeight=[];
+    	_self.settings.firstRowsOffsetHeight=[];
         //获取当前设备的宽度
         var seeWidth=document.documentElement.clientWidth;
         //获取图片加载区域的外包元素
         var wrapperEle=document.querySelector(_self.settings.wrapper);
-        //设置图片默认left=0,top=0
-        for(var i= 0,j=wrapperEle.length;i<j;i++){
-            debugger;
-            wrapperEle[i].style.left=0+"px";
-            wrapperEle[i].style.top=0+"px";
-        }
         //获取图片的外包元素
         var imgWrapper=wrapperEle.getElementsByClassName("img-box");
         //获取加载区域的图片
         _self.settings.imgArr=wrapperEle.getElementsByTagName("img");
+        //设置图片默认left=0,top=0
+        for(var i= 0,j=imgWrapper.length;i<j;i++){
+            imgWrapper[i].style.left=0+"px";
+            imgWrapper[i].style.top=0+"px";
+        }
         //获取图片的数量
         _self.settings.imgLength=_self.settings.imgArr.length;
       /*  //遍历设置预加载的图片
@@ -226,44 +229,40 @@ var lazyLoadTree=(function () {
         }*/
 
         //每一列的宽度
-        var rowsWidth=imgWrapper[0].offsetWidth+hd;
+        var rowsWidth=imgWrapper[0].offsetWidth==seeWidth?imgWrapper[0].offsetWidth:imgWrapper[0].offsetWidth+hd;
         //设置每行的列数
         var columnNums=Math.floor(seeWidth/rowsWidth);
-        //设置加载区域的宽度
-     /*   wrapperEle.style.width=rowsWidth*columnNums-hd+"px";*/
         //图片加载完成，获取img-box的高度
-        _self.settings.imgArr[_self.settings.imgLength-1].onload= function () {
-
-           /* document.querySelector(_self.settings.loaderLayer).style.display="none";*/
-            //首次懒加载
-            for(var i=0;i<_self.settings.imgLength;i++){
-                _self.settings.imgArrOffsetHeight.push(imgWrapper[i].offsetHeight);
-            }
-            //首先安排第一行
-            for(var i=0;i<columnNums;i++){
-                imgWrapper[i].style.top=0+"px";
-                imgWrapper[i].style.left=(rowsWidth*i+hd)+"px";
-                _self.settings.firstRowsOffsetHeight.push( _self.settings.imgArrOffsetHeight[i]);
-
-            }
-            //接着安排除了第一行之后的其他行
-            for(var i=columnNums;i<_self.settings.imgLength;i++){
-                //获取最短一列的索引值
-                var minIndex=_getMinIndex(_self.settings.firstRowsOffsetHeight);
-                imgWrapper[i].style.top=(_self.settings.firstRowsOffsetHeight[minIndex]+vd)+"px";
-                imgWrapper[i].style.left=(rowsWidth*minIndex+hd)+"px";
-                //更新最小列的高度
-                _self.settings.firstRowsOffsetHeight[minIndex]=_self.settings.imgArrOffsetHeight[i]+_self.settings.firstRowsOffsetHeight[minIndex]+vd;
-            }
-
-            //设置外围父元素高度
-            wrapperEle.style.height=imgWrapper[_self.settings.imgLength-1].offsetTop+"px";
-            console.log(wrapperEle.style.height);
-
-            //懒加载
-            _self.loading();
-
-        };
+        /*_self.settings.imgArr[_self.settings.imgLength-1].onload= function () {
+			
+        };*/
+       for(var i=0;i<_self.settings.imgLength;i++){
+	            _self.settings.imgArrOffsetHeight.push(imgWrapper[i].offsetHeight);
+	        }
+	        //首先安排第一行
+	        for(var i=0;i<columnNums;i++){
+	            imgWrapper[i].style.top=0+"px";
+	            imgWrapper[i].style.left=imgWrapper[0].offsetWidth==seeWidth?rowsWidth*i+"px":(rowsWidth*i+hd)+"px";
+	            _self.settings.firstRowsOffsetHeight.push( _self.settings.imgArrOffsetHeight[i]);
+	
+	        }
+	        //接着安排除了第一行之后的其他行
+	        for(var i=columnNums;i<_self.settings.imgLength;i++){
+	            //获取最短一列的索引值
+	            var minIndex=_getMinIndex(_self.settings.firstRowsOffsetHeight);
+	            imgWrapper[i].style.top=(_self.settings.firstRowsOffsetHeight[minIndex]+vd)+"px";
+	            imgWrapper[i].style.left=imgWrapper[0].offsetWidth==seeWidth?0+"px":(rowsWidth*minIndex+hd)+"px";
+	            //更新最小列的高度
+	            _self.settings.firstRowsOffsetHeight[minIndex]=_self.settings.imgArrOffsetHeight[i]+_self.settings.firstRowsOffsetHeight[minIndex]+vd;
+	        }
+	
+	        //设置外围父元素高度(最底部的顶部距离+高度)
+	        wrapperEle.style.height=(imgWrapper[_self.settings.imgLength-1].offsetTop+imgWrapper[_self.settings.imgLength-1].offsetHeight)+"px";
+	
+	        //懒加载
+	        _self.loading();
+            
+        
 
     };
     lazyLoader.prototype.loading=function(){
@@ -280,7 +279,6 @@ var lazyLoadTree=(function () {
         var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
         for (var i =0; i < _self.settings.imgLength; i++) {
             if (imgWrapper[i].offsetTop < seeHeight + scrollTop) {
-                console.log(imgWrapper[i].offsetTop);
                 /*if (_self.settings.imgArr[i].getAttribute("src") == _self.settings.fakeImg) {
                     _self.settings.imgArr[i].src = _self.settings.imgArr[i].getAttribute("data-src");
                     //显示图片

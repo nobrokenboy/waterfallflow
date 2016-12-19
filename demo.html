@@ -24,6 +24,8 @@
             text-align:center;
         }
         .img-box{
+        	opacity:0;
+        	box-sizing:border-box;
             position:absolute;
             width:32%;
             border:1px solid #ccc;
@@ -49,26 +51,22 @@
 
         /*设置图片动画效果*/
         .fadeIn{
-            opacity:0;
             -webkit-animation:fadeIn .5s ease-in forwards;
             animation:fadeIn .5s ease-in forwards;
         }
         .moveUp{
-            opacity:1;
             -webkit-transform: translateY(200px);
             transform: translateY(200px);
             -webkit-animation:moveUp .6s ease-in forwards;
             animation:moveUp .6s ease-in forwards;
         }
         .bigger{
-            opacity:1;
             -webkit-transform: scale(0);
             transform: scale(0);
             -webkit-animation:bigger .6s ease-in forwards;
             animation:bigger .6s ease-in forwards;
         }
         .reserve{
-            opacity:1;
             -webkit-transform-style: preserve-3d;
             transform-style: preserve-3d;
             -webkit-transform: translateZ(400px) translateY(300px) rotateX(-90deg);
@@ -347,6 +345,12 @@
         <div class="img-box">
             <img  src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
         </div>
+        <div class="img-box">
+            <img  src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+        </div>
+        <div class="img-box">
+            <img  src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+        </div>
     </section>
     <!--<div class="loading-layer">
         <img/>
@@ -376,7 +380,7 @@
         //初始化
         var lazyloader=new lazyLoadTree.lazyLoader(".load-img-area",{
             fakeImg:"http://pic1.16pic.com/00/23/02/16pic_2302179_b.jpg",
-            effect:"bigger",
+            effect:"moveUp",
             loaderLayer:".loading-layer"
         });
         lazyloader.init(10,10);
@@ -384,8 +388,8 @@
             lazyloader.loading();
         };
         window.onresize=function(){
-
-            lazyloader.init(10,10);
+        	/*debugger;*/
+			lazyloader.init(10,10);
         }
 
     </script>
