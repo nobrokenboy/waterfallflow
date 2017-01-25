@@ -204,6 +204,7 @@ var lazyLoadTree=(function () {
 
     };
     lazyLoader.prototype.init=function(hd,vd){
+    	debugger;
         var _self=this;
         //获取当前设备的宽度
         var seeWidth=document.documentElement.clientWidth;
@@ -230,6 +231,7 @@ var lazyLoadTree=(function () {
         var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
         for (var i =0; i < _self.settings.imgLength; i++) {
             if (_self.settings.imgArr[i].offsetTop < seeHeight + scrollTop) {
+            	debugger;
                 if (_self.settings.imgArr[i].getAttribute("src") == _self.settings.fakeImg) {
                     _self.settings.imgArr[i].src = _self.settings.imgArr[i].getAttribute("data-src");
                 }

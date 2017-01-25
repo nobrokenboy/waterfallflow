@@ -2,37 +2,138 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
     <title>懒加载实现</title>
     <style>
         *{
             padding:0;
             margin:0;
+            box-sizing: border-box;
+        }
+        html,body{
+            width:100%;
+            overflow-x:hidden;
+            font-family:"微软雅黑";
+            /*background-color:rgba(1,1,1,0.8);*/
         }
         .load-img-area{
             position:relative;
+            width:100%;
+            margin:0 auto;
+            overflow:hidden;
             text-align:center;
-            -webkit-column-count:6;
-            -moz-column-count: 6;
-            column-count: 6;
         }
         .img-box{
-            float: left;
-            width:200px;
+        	opacity:0;
+        	box-sizing:border-box;
+            position:absolute;
+            width:32%;
             border:1px solid #ccc;
             border-radius:3px;
-            margin:10px;
+            box-shadow:1px 2px 2px 2px rgba(1,1,1,.2);
             padding:5px;
-          /*  -webkit-transition:all 500ms ease-in-out;
-            transition:all 500ms ease-in-out;*/
+        }
+        @media screen and (max-width: 900px){
+            .img-box{
+                width:48%;
+            }
+        }
+        @media screen and (max-width: 464px){
+            .img-box{
+                width:100%;
+            }
         }
         img {
             display: block;
             width:100%;
             height:auto;
         }
+
+        /*设置图片动画效果*/
+        .fadeIn{
+            -webkit-animation:fadeIn .5s ease-in forwards;
+            animation:fadeIn .5s ease-in forwards;
+        }
+        .moveUp{
+            -webkit-transform: translateY(200px);
+            transform: translateY(200px);
+            -webkit-animation:moveUp .6s ease-in forwards;
+            animation:moveUp .6s ease-in forwards;
+        }
+        .bigger{
+            -webkit-transform: scale(0);
+            transform: scale(0);
+            -webkit-animation:bigger .6s ease-in forwards;
+            animation:bigger .6s ease-in forwards;
+        }
+        .reserve{
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-transform: translateZ(400px) translateY(300px) rotateX(-90deg);
+            transform: translateZ(400px) translateY(300px) rotateX(-90deg);
+            -webkit-animation:reserve .6s ease-in forwards;
+            animation:reserve .6s ease-in forwards;
+        }
+        /*渐入动画*/
+        @-webkit-keyframes fadeIn {
+            100%{
+                opacity:1;
+            }
+        }
+        @keyframes fadeIn {
+            100%{
+                opacity:1;
+            }
+        }
+        /*向上*/
+        @-webkit-keyframes moveUp {
+            100%{
+                -webkit-transform: translateY(0);
+                opacity: 1;
+            }
+
+        }
+        @keyframes moveUp {
+            100%{
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+        }
+        /*变大*/
+        @-webkit-keyframes bigger {
+            100%{
+                -webkit-transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+        @keyframes bigger {
+            100%{
+                transform:scale(1);
+                opacity: 1;
+            }
+
+        }
+        /*反转*/
+        @-webkit-keyframes reserve {
+            100%{
+                -webkit-transform: translateZ(0) translateY(0) rotateX(0deg);
+                opacity: 1;
+            }
+
+        }
+        @keyframes reserve {
+            100%{
+                transform:translateZ(0) translateY(0) rotateX(0deg);
+                opacity: 1;
+            }
+
+        }
+
         /*加载效果*/
         .spinner {
-            margin: 100px auto;
+            margin:0 auto;
             width: 20px;
             height: 20px;
             position: relative;
@@ -146,152 +247,112 @@
 <body>
     <section class="load-img-area">
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img  data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img  data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
         <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
+            <img src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg">
         </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa7kaed2hpj30sg0l9q54.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        <div class="img-box">
-            <img data-src="./img/006y8mN6gw1fa5obmqrmvj305k05k3yh.jpg" alt="">
-        </div>
-        
     </section>
-    <div>
+    <!--<div class="loading-layer">
         <img/>
         <div class="spinner">
             <div class="spinner-container container1">
@@ -313,17 +374,28 @@
                 <div class="circle4"></div>
             </div>
         </div>
-    </div>
-    <script src="lazyload.js"></script>
+    </div>-->
+    <script src="lazyloadtree.js"></script>
     <script>
         //初始化
         var lazyloader=new lazyLoadTree.lazyLoader(".load-img-area",{
-            fakeImg:"http://pic1.16pic.com/00/23/02/16pic_2302179_b.jpg"
+            fakeImg:"http://pic1.16pic.com/00/23/02/16pic_2302179_b.jpg",
+            effect:"moveUp",
+            loaderLayer:".loading-layer"
         });
         lazyloader.init(10,10);
         window.onscroll=function(){
-            lazyloader.loading();
+        	lazyloader.loading();
+        	//new lazyLoadTree._throttle(lazyloader.loading(),1000);
+           
         };
+        window.onresize=function(){
+        	/*debugger;*/
+        	lazyloader.init(10,10);
+        	//new lazyLoadTree._throttle(lazyloader.init(10,10),1000);
+			
+        }
+
     </script>
 </body>
 </html>

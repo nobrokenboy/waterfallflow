@@ -176,6 +176,33 @@ var lazyLoadTree=(function () {
             el["on"+type]=null;
         }
     };
+    
+    /*
+     * @function:节流，防止因resize,scroll事件导致页面多次触发函数
+     * */
+    var _throttle=function(fn, threshhold, scope) {
+    	debugger;
+		  threshhold || (threshhold = 250);
+		  var last,
+		      timer;
+		  return function () {
+			    var context = scope || this;
+			    var now = +new Date(),//+new Date()==+new Date==new Date().getTime()==new Date().valueOf()
+			        args = arguments;
+			    if (last && now - last + threshhold < 0) {
+			      // hold on to it
+			      clearTimeout(deferTimer);
+			      timer = setTimeout(function () {
+			        last = now;
+			        fn.apply(context, args);
+			      }, threshhold);
+			    } else {
+			      last = now;
+			      fn.apply(context, args);
+			    }
+			 }
+  	};
+     
     /*
     *  @function:lazyloader
     *  @param container:wrapper of contaniner
@@ -216,6 +243,7 @@ var lazyLoadTree=(function () {
         var imgWrapper=wrapperEle.getElementsByClassName("img-box");
         //获取加载区域的图片
         _self.settings.imgArr=wrapperEle.getElementsByTagName("img");
+        console.log(_self.settings.imgArr);
         //设置图片默认left=0,top=0
         for(var i= 0,j=imgWrapper.length;i<j;i++){
             imgWrapper[i].style.left=0+"px";
@@ -233,10 +261,10 @@ var lazyLoadTree=(function () {
         //设置每行的列数
         var columnNums=Math.floor(seeWidth/rowsWidth);
         //图片加载完成，获取img-box的高度
-        /*_self.settings.imgArr[_self.settings.imgLength-1].onload= function () {
+       /* _self.settings.imgArr[_self.settings.imgLength-1].onload= function () {
 			
         };*/
-       for(var i=0;i<_self.settings.imgLength;i++){
+       		for(var i=0;i<_self.settings.imgLength;i++){
 	            _self.settings.imgArrOffsetHeight.push(imgWrapper[i].offsetHeight);
 	        }
 	        //首先安排第一行
@@ -279,11 +307,11 @@ var lazyLoadTree=(function () {
         var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
         for (var i =0; i < _self.settings.imgLength; i++) {
             if (imgWrapper[i].offsetTop < seeHeight + scrollTop) {
-                /*if (_self.settings.imgArr[i].getAttribute("src") == _self.settings.fakeImg) {
+                if (_self.settings.imgArr[i].getAttribute("src") == _self.settings.fakeImg) {
                     _self.settings.imgArr[i].src = _self.settings.imgArr[i].getAttribute("data-src");
                     //显示图片
 
-                }*/
+                }
                 _addClass(imgWrapper[i],_self.settings.effect);
                 _self.settings.imgLoadingIndex = i + 1;
             }
@@ -291,6 +319,7 @@ var lazyLoadTree=(function () {
     };
 
     return {
+    	_throttle:_throttle,
         lazyLoader:lazyLoader
     };
 
