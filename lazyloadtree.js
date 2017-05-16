@@ -25,7 +25,7 @@ var lazyLoadTree=(function () {
             obj.className+=" "+classOfName;
         }
     };
-
+                                                                                    
     /*
     * @function _removeClass:remove className from the element
     * @param obj
